@@ -4,7 +4,7 @@
 require("dotenv").config();
 // pull PORT from .env, give default value of 3000
 // pull DATABASE_URL from .env
-const { PORT = 3000, DATABASE_URL } = process.env;
+const { DATABASE_URL, PORT = 3000 } = process.env;
 // import express
 const express = require("express");
 // create application object
@@ -12,8 +12,80 @@ const app = express();
 // import mongoose
 const mongoose = require("mongoose");
 
+const cors = require('cors')
+const morgan = require('morgan');
+const Song = require("./models/songs");
 
-// DATABASE CONNECTION
+app.use(cors())
+app.use(morgan('dev'))
+app.use(express.json())
+
+
+
+
+// ROUTES
+
+// create a test route
+app.get("/", (req, res) => {
+  res.send("hello world");
+});
+
+// SONG INDEX ROUTE
+ 
+app.get('/songs', async (req, res)=> {
+  try{
+    res.json(await Song.find({}) )
+  } catch(error){
+    res.status(400).json(error)
+  }
+})
+
+  // GET - SONG SHOW
+
+app.get('/songs/:id', async (req,res)=>{
+  try{
+    res.json(await Song.findById(req.params.id))
+  } catch (error) {
+    res.status(400).json(error)
+  }
+})
+
+// POST - SONG CREATE ROUTE
+
+  app.post('/songs', async (req, res)=>{
+    try {
+      res.json(await Song.create(req.body))
+    } catch (error) {
+      res.status(400).json(error)
+    }
+  })
+
+
+// PUT - SONG UPDATE ROUTE
+
+app.put('/songs/:id', async (req, res)=> {
+  try {
+    res.json(
+      await Song.findByIdAndUpdate(req.params.id, req.body, {new: true})
+    )
+  } catch (error) {
+    res.status(400).json(error)
+  }
+})
+
+// DELETE - SONG DESTROY ROUTE
+
+app.delete('/songs/:id', async (req, res)=> {
+  try {
+    res.json(await Song.findByIdAndRemove(req.params.id))
+  } catch (error) {
+    res.status(400).json(error)
+  }
+})
+
+
+
+
 
 // Establish Connection
 mongoose.connect(DATABASE_URL, {
@@ -26,13 +98,6 @@ mongoose.connection
   .on("close", () => console.log("Your are disconnected from mongoose"))
   .on("error", (error) => console.log(error));
 
-
-// ROUTES
-
-// create a test route
-app.get("/", (req, res) => {
-  res.send("hello world");
-});
 
 
 // LISTENER
