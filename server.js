@@ -12,6 +12,8 @@ const app = express();
 // import mongoose
 const mongoose = require("mongoose");
 
+const songsSeed = require('./seedSongs/songs')
+
 const cors = require('cors')
 const morgan = require('morgan');
 const Song = require("./models/songs");
@@ -26,9 +28,13 @@ app.use(express.json())
 // ROUTES
 
 // create a test route
-app.get("/", (req, res) => {
-  res.send("hello world");
-});
+// app.get("/", (req, res) => {
+//   res.send("hello world");
+// });
+
+
+
+
 
 // SONG INDEX ROUTE
  
@@ -39,6 +45,18 @@ app.get('/songs', async (req, res)=> {
     res.status(400).json(error)
   }
 })
+
+app.get('/songs/seed', (req, res)=>{
+      Song.create(songsSeed, (err, data)=>{
+          if(err){
+              console.log('COULD NOT GET SEED')
+          } else{
+              console.log('DATABASE SEEDED SUCCESSFULLY')
+              res.redirect('/songs')
+          }
+      })
+  })
+
 
   // GET - SONG SHOW
 
@@ -103,3 +121,5 @@ mongoose.connection
 // LISTENER
 
 app.listen(PORT, () => console.log(`listening on PORT ${PORT}`));
+
+
