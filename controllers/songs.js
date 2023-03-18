@@ -4,13 +4,13 @@ const Song = require("../models/songs");
 const songsSeed = require('../seedSongs/songs')
   
 // SEED SONG
-router.get('/songs/seed', async (req, res)=>{
-    try {
-        res.json(await Song.create(songsSeed))
-    } catch (error) {
-        res.status(400).json(error)
-    }
-})
+// router.get('/seed', async (req, res)=>{
+//     try {
+//         res.json(await Song.create(songsSeed))
+//     } catch (error) {
+//         res.status(400).json(error)
+//     }
+// })
 
 //// DROP DATA
 // Song.collection.drop()
