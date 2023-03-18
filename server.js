@@ -18,8 +18,11 @@ const songsController = require('./controllers/songs')
 const cors = require('cors')
 const morgan = require('morgan');
 
+<<<<<<< HEAD
 const db = mongoose.connection
 
+=======
+>>>>>>> 2c4586d8fcb1506c607fa77d9b77effc60b80ca9
 app.use(cors())
 app.use(morgan('dev'))
 app.use(express.json())
@@ -51,3 +54,7 @@ db.on("error", (error) => console.log(error));
 
 app.listen(PORT, () => console.log(`listening on PORT ${PORT}`));
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 2c4586d8fcb1506c607fa77d9b77effc60b80ca9
