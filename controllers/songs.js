@@ -2,9 +2,10 @@ const express = require('express')
 const router = express.Router()
 const Song = require("../models/songs");
 const songsSeed = require('../seedSongs/songs')
+const {upload, cloudinary} = require('../utils/multer-cloudinary')
   
 //// SEED SONG
-// router.get('/songs/seed', async (req, res)=>{
+// router.get('/seed', async (req, res)=>{
 //     try {
 //         res.json(await Song.create(songsSeed))
 //     } catch (error) {
@@ -13,7 +14,7 @@ const songsSeed = require('../seedSongs/songs')
 // })
 
 //// DROP DATA
-// Song.collection.drop()
+Song.collection.drop()
 
 
 // SONG INDEX ROUTE
@@ -35,21 +36,42 @@ router.get('/:id', async (req,res)=>{
 })
 
 // POST - SONG CREATE ROUTE
-router.post('/', async (req, res)=>{
+router.post('/', upload.single('link'), async (req, res) => {
     try {
+        console.log(req.body, 'req.body')
+        console.log(req.file, 'req.file')
+        console.log(req.body)
+        req.body.link = req.file.path
+        console.log(result)
         res.json(await Song.create(req.body))
-        } catch (error) {
+    } catch (error) {
         res.status(400).json(error)
     }
 })
 
 
 // PUT - SONG UPDATE ROUTE
-router.put('/:id', async (req, res)=> {
+router.put('/:id', upload.single('link'), async (req, res)=> {
     try {
-        res.json(
-        await Song.findByIdAndUpdate(req.params.id, req.body, {new: true})
-        )
+        console.log(req.body, 'req.body')
+        console.log(req.file, 'req.file')
+        if (typeof req.file === 'undefined') {
+            res.json(await Song.findByIdAndUpdate(req.params.id, {
+                $set: {
+                    title: req.body.title,
+                    artist: req.body.artirt,
+                    album: req.body.album,
+                    image: req.body.image
+                }
+            },
+                {new: true}
+            ))
+        } else {
+            req.body.link = req.file.path
+            res.json(
+                await Song.findByIdAndUpdate(req.params.id, req.body, {new: true})
+            )
+        }
     } catch (error) {
         res.status(400).json(error)
     }

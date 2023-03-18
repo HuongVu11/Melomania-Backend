@@ -12,7 +12,7 @@ const app = express();
 // import mongoose
 const mongoose = require("mongoose");
 // import songsRouter
-const songsController = require('./controllers/songs')
+const songsController = require('./controllers/songs.js')
 
 
 const cors = require('cors')
