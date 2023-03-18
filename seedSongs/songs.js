@@ -33,13 +33,6 @@ const data = [
         image: 'https://www.slantmagazine.com/wp-content/uploads/2016/08/blonde.jpg',
         link: 'https://www.youtube.com/watch?v=r4l9bFqgMaQ'
     }
-
-
-
-
-
-
-
 ]
 
 module.exports = data
