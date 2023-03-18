@@ -2,7 +2,9 @@ const express = require('express')
 const router = express.Router()
 const Song = require("../models/songs");
 const songsSeed = require('../seedSongs/songs')
+const {upload, cloudinary} = require('../utils/multer-cloudinary')
   
+<<<<<<< HEAD
 // SEED SONG
 // router.get('/seed', async (req, res)=>{
 //     try {
@@ -11,6 +13,16 @@ const songsSeed = require('../seedSongs/songs')
 //         res.status(400).json(error)
 //     }
 // })
+=======
+//// SEED SONG
+router.get('/seed', async (req, res)=>{
+    try {
+        res.json(await Song.create(songsSeed))
+    } catch (error) {
+        res.status(400).json(error)
+    }
+})
+>>>>>>> 559519f039c77adf1838187cd2d74758f4922eb7
 
 //// DROP DATA
 // Song.collection.drop()
@@ -35,21 +47,42 @@ router.get('/:id', async (req,res)=>{
 })
 
 // POST - SONG CREATE ROUTE
-router.post('/', async (req, res)=>{
+router.post('/', upload.single('link'), async (req, res) => {
     try {
+        console.log(req.body, 'req.body')
+        console.log(req.file, 'req.file')
+        console.log(req.body)
+        req.body.link = req.file.path
+        console.log(result)
         res.json(await Song.create(req.body))
-        } catch (error) {
+    } catch (error) {
         res.status(400).json(error)
     }
 })
 
 
 // PUT - SONG UPDATE ROUTE
-router.put('/:id', async (req, res)=> {
+router.put('/:id', upload.single('link'), async (req, res)=> {
     try {
-        res.json(
-        await Song.findByIdAndUpdate(req.params.id, req.body, {new: true})
-        )
+        console.log(req.body, 'req.body')
+        console.log(req.file, 'req.file')
+        if (typeof req.file === 'undefined') {
+            res.json(await Song.findByIdAndUpdate(req.params.id, {
+                $set: {
+                    title: req.body.title,
+                    artist: req.body.artirt,
+                    album: req.body.album,
+                    image: req.body.image
+                }
+            },
+                {new: true}
+            ))
+        } else {
+            req.body.link = req.file.path
+            res.json(
+                await Song.findByIdAndUpdate(req.params.id, req.body, {new: true})
+            )
+        }
     } catch (error) {
         res.status(400).json(error)
     }
