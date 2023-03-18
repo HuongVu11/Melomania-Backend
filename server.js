@@ -14,6 +14,7 @@ const mongoose = require("mongoose");
 // import songsRouter
 const songsController = require('./controllers/songs.js')
 
+const db = mongoose.connection
 
 const cors = require('cors')
 const morgan = require('morgan');
@@ -39,15 +40,13 @@ mongoose.connect(DATABASE_URL, {
   useNewUrlParser: true,
 });
 // Connection Events
-mongoose.connection
-  .on("open", () => console.log("Your are connected to mongoose"))
-  .on("close", () => console.log("Your are disconnected from mongoose"))
-  .on("error", (error) => console.log(error));
+db.on("open", () => console.log("Your are connected to mongoose"))
+db.on("close", () => console.log("Your are disconnected from mongoose"))
+db.on("error", (error) => console.log(error));
 
 
 
 // LISTENER
 
 app.listen(PORT, () => console.log(`listening on PORT ${PORT}`));
-
 

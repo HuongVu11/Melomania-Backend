@@ -5,16 +5,16 @@ const songsSeed = require('../seedSongs/songs')
 const {upload, cloudinary} = require('../utils/multer-cloudinary')
   
 //// SEED SONG
-// router.get('/seed', async (req, res)=>{
-//     try {
-//         res.json(await Song.create(songsSeed))
-//     } catch (error) {
-//         res.status(400).json(error)
-//     }
-// })
+router.get('/seed', async (req, res)=>{
+    try {
+        res.json(await Song.create(songsSeed))
+    } catch (error) {
+        res.status(400).json(error)
+    }
+})
 
 //// DROP DATA
-Song.collection.drop()
+// Song.collection.drop()
 
 
 // SONG INDEX ROUTE
