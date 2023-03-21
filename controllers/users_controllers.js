@@ -1,14 +1,14 @@
-
 const bcrypt = require('bcrypt')
 const express = require('express')
 const user = express.Router()
 const User = require('../models/users.js')
 
-
 user.get('/', (req, res) => {
   res.json('Hello World')
 })
 
+
+// POST - CREATE ACCOUNT
 user.post('/createaccount', (req, res) => {
   req.body.password = bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(10))
   User.create(req.body, (err, createdUser) => {
@@ -16,18 +16,18 @@ user.post('/createaccount', (req, res) => {
       console.log(err);
       res.json(err.message)
     } else {
-      console.log('user is created', createdUser);
+      console.log('User is created', createdUser);
       res.json(createdUser)
     }
   })
 });
 
-
+// PUT - LOGIN
 user.put('/login', (req, res) => {
   console.log(req.body);
   User.findOne({username: req.body.username}, (err, foundUser) => {
     if(err) {
-      res.json('Oops, there was an error. Please try again')
+      res.json('There was an error. Please try again')
     } else {
       if(!foundUser){
         res.json('Username and password do not match. Please try again.')

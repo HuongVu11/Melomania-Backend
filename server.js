@@ -11,20 +11,29 @@ const express = require("express");
 const app = express();
 // import mongoose
 const mongoose = require("mongoose");
+// import method-override
+const methodOverride = require('method-override');
 // import songsRouter
 const songsController = require('./controllers/songs.js')
+// import usersController
+const usersController = require('./controllers/users_controllers.js')
 
 const db = mongoose.connection
 
 const cors = require('cors')
 const morgan = require('morgan');
 
+app.use(express.json())
+app.use(express.urlencoded({extended:true}));
+app.use(methodOverride('_method'))
 app.use(cors())
 app.use(morgan('dev'))
-app.use(express.json())
+
 
 // use Router
 app.use('/songs', songsController)
+app.use('/login', usersController)
+
 
 
 // ROUTES
