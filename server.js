@@ -13,6 +13,9 @@ const app = express();
 const mongoose = require("mongoose");
 // import songsRouter
 const songsController = require('./controllers/songs.js')
+const usersController = require('./controllers/users_controllers')
+const artistsController = require('./controllers/artists')
+const Song = require('./models/songs');
 
 const db = mongoose.connection
 
@@ -25,7 +28,8 @@ app.use(express.json())
 
 // use Router
 app.use('/songs', songsController)
-
+app.use('/', usersController)
+app.use('/artists', artistsController)
 
 // ROUTES
 // create a test route
@@ -33,6 +37,15 @@ app.get("/", (req, res) => {
   res.send("hello world");
 });
 
+// search a song by title
+app.get('/search', async (req,res) =>{
+  try{
+    res.send(await Song.find({title: {$regex: req.query.title, $options: 'i'}}))
+  } catch (error) {
+    console.log(error)
+    res.status(400).json(error)
+  }
+})
 
 // Establish Connection
 mongoose.connect(DATABASE_URL, {

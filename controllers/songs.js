@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const Song = require("../models/songs");
-const songsSeed = require('../seedSongs/songs')
+const songsSeed = require('../seedData/songs')
 const {upload, cloudinary} = require('../utils/multer-cloudinary')
   
 //// SEED SONG
@@ -38,13 +38,11 @@ router.get('/:id', async (req,res)=>{
 // POST - SONG CREATE ROUTE
 router.post('/', upload.single('link'), async (req, res) => {
     try {
-        console.log(req.body, 'req.body')
-        console.log(req.file, 'req.file')
-        console.log(req.body)
         req.body.link = req.file.path
-        console.log(result)
+        //console.log(req.body)
         res.json(await Song.create(req.body))
     } catch (error) {
+        console.log(error)
         res.status(400).json(error)
     }
 })
@@ -53,8 +51,6 @@ router.post('/', upload.single('link'), async (req, res) => {
 // PUT - SONG UPDATE ROUTE
 router.put('/:id', upload.single('link'), async (req, res)=> {
     try {
-        console.log(req.body, 'req.body')
-        console.log(req.file, 'req.file')
         if (typeof req.file === 'undefined') {
             res.json(await Song.findByIdAndUpdate(req.params.id, {
                 $set: {
