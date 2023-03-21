@@ -7,18 +7,16 @@ user.get('/', (req, res) => {
   res.json('Hello World')
 })
 
-user.post('/createaccount', (req, res) => {
-  req.body.password = bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(10))
-  User.create(req.body, (err, createdUser) => {
-    if(err){
-      console.log(err);
-      res.json(err.message)
-    } else {
-      console.log('user is created', createdUser);
-      res.json(createdUser)
-    }
-  })
-});
+user.post('/createaccount', async (req, res) => {
+  try {
+    req.body.password = bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(10))
+    res.json(await User.create(req.body))
+    console.log('user is created', createdUser);
+  } catch (error) {
+    console.log(error);
+    res.json(error.message)
+  }
+})
 
 
 user.put('/login', (req, res) => {
