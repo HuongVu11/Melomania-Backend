@@ -15,8 +15,6 @@ const mongoose = require("mongoose");
 const methodOverride = require('method-override');
 // import songsRouter
 const songsController = require('./controllers/songs.js')
-// import usersController
-const usersController = require('./controllers/users_controllers.js')
 
 const db = mongoose.connection
 
@@ -32,8 +30,6 @@ app.use(morgan('dev'))
 
 // use Router
 app.use('/songs', songsController)
-app.use('/login', usersController)
-
 
 
 // ROUTES
@@ -42,6 +38,15 @@ app.get("/", (req, res) => {
   res.send("hello world");
 });
 
+// search a song by title
+app.get('/search', async (req,res) =>{
+  try{
+    res.send(await Song.find({title: {$regex: req.query.title, $options: 'i'}}))
+  } catch (error) {
+    console.log(error)
+    res.status(400).json(error)
+  }
+})
 
 // Establish Connection
 mongoose.connect(DATABASE_URL, {
