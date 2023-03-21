@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const Song = require("../models/songs");
-const songsSeed = require('../seedSongs/songs')
+const songsSeed = require('../seedData/songs')
 const {upload, cloudinary} = require('../utils/multer-cloudinary')
   
 
