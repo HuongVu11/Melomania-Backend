@@ -14,7 +14,7 @@ user.post('/createaccount', async (req, res) => {
     console.log('user is created', createdUser);
   } catch (error) {
     console.log(error);
-    res.json(err.message)
+    res.json(error.message)
   }
 })
 
