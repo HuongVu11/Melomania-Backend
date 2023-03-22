@@ -14,7 +14,7 @@ const {upload, cloudinary} = require('../utils/multer-cloudinary')
 // })
 
 //// DROP DATA
-// Song.collection.drop()
+//Song.collection.drop()
 
 
 // SONG INDEX ROUTE

@@ -1,18 +1,4 @@
 const data = [
-  {  
-    title: 'Remeber The Time',
-    artist: 'Micheal Jackson',
-    album: 'Dangerous',
-    image: 'https://images.genius.com/984f3eb1d4ff07878238a3041131553f.1000x1000x1.jpg',
-    link:''
-  },
-  {
-    title: 'Nights',
-    artist: 'Frank Ocean',
-    album: 'Blonde',
-    image: 'https://www.slantmagazine.com/wp-content/uploads/2016/08/blonde.jpg',
-    link: ''
-  },
   {
     title: 'A Thousand Years',
     artist: 'Christina Perri',

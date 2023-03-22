@@ -13,21 +13,23 @@ const app = express();
 const mongoose = require("mongoose");
 // import songsRouter
 const songsController = require('./controllers/songs.js')
+const usersController = require('./controllers/users_controllers')
+const artistsController = require('./controllers/artists')
+const Song = require('./models/songs');
 
 const db = mongoose.connection
 
 const cors = require('cors')
 const morgan = require('morgan');
 
-app.use(express.json())
-app.use(express.urlencoded({extended:true}));
 app.use(cors())
 app.use(morgan('dev'))
-
+app.use(express.json())
 
 // use Router
 app.use('/songs', songsController)
-
+app.use('/', usersController)
+app.use('/artists', artistsController)
 
 // ROUTES
 // create a test route
