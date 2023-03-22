@@ -11,8 +11,6 @@ const express = require("express");
 const app = express();
 // import mongoose
 const mongoose = require("mongoose");
-// import method-override
-const methodOverride = require('method-override');
 // import songsRouter
 const songsController = require('./controllers/songs.js')
 
@@ -23,7 +21,6 @@ const morgan = require('morgan');
 
 app.use(express.json())
 app.use(express.urlencoded({extended:true}));
-app.use(methodOverride('_method'))
 app.use(cors())
 app.use(morgan('dev'))
 
