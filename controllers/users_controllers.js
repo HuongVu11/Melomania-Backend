@@ -11,7 +11,7 @@ user.post('/createaccount', async (req, res) => {
   try {
     req.body.password = bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(10))
     res.json(await User.create(req.body))
-    console.log('user is created', createdUser);
+    
   } catch (error) {
     console.log(error);
     res.json(error.message)
